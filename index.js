@@ -12,11 +12,11 @@ app.use(express.urlencoded({ extended: true })); //data from form
 app.use(express.static("public"));
 
 const path = require("path");
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
 });
 
-app.get("/auth", (req, res) => {
-  res.sendFile(path.join(__dirname + "/auth.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/index.html"));
 });

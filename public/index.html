@@ -38,7 +38,7 @@
     <title>Recipe Finder</title>
   </head>
 
-  <body class="text-light">
+  <body ng-app="app" ui-view class="text-light">
     <div class="text-center box font">
       <h1>Recipe Finder 🥘</h1>
       <div class="row g-3 justify-content-center">
@@ -114,7 +114,7 @@
             showCurrentUserInfo();
             $(".sign-in").css("display","none");
             $(".sign-out").css("display","inline-block");
-            
+
           },
           function (err) {
             console.log("this is an error");

@@ -99,7 +99,7 @@ $(document).ready(() => {
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-dark rounded-pill" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger rounded-pill px-3"><a href="${item.strYoutube}" class="text-decoration-none text-light">Add</a></button>
+                                <button type="button" class="btn btn-danger rounded-pill px-3" id="addBtn">Add</button>
                               </div>
                             </div>
                           </div>
@@ -126,4 +126,10 @@ $(document).ready(() => {
       count++;
     }
   }
+
+  $("#addBtn").on("click",()=>{
+    if(isUserSignedIn()){
+      
+    }
+  })
 });

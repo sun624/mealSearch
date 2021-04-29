@@ -39,7 +39,7 @@
   </head>
 
   <body class="text-light">
-    <div  ng-app="app" ui-view></div>
+    <div ng-app="app" ui-view></div>
     <div class="text-center box font">
       <h1>Recipe Finder 🥘</h1>
       <div class="row g-3 justify-content-center">
@@ -60,8 +60,11 @@
         </div>
         <div class="col-auto">
           <button class="sign-in" onclick="onSignInClicked()">Sign in</button>
-          <button class="sign-out" onclick="signOut()"><img src="" style="float:left;margin-right:0.5em">Sign out </button>
-
+          <button class="sign-out" onclick="signOut()">Sign out</button>
+          <img class="profile" />
+          <button class="favorate" onclick="showFavs()">
+            Your favorates🍕
+          </button>
         </div>
       </div>
     </div>
@@ -72,10 +75,11 @@
         <h6 class="text-center">Made by Group 404</h6>
       </div>
     </footer>
+
     <script>
       var auth2 = undefined;
       function onLibraryLoaded() {
-        gapi.load("auth2", function () {
+        gapi.load("auth2", () => {
           auth2 = gapi.auth2.init({
             client_id:
               "870711841901-kviglku4c7l9p0b1j5a0065k53931n61.apps.googleusercontent.com",
@@ -96,11 +100,16 @@
           auth2.isSignedIn.listen(function (isSignedIn) {
             console.log("change in sign in status ", isSignedIn);
             if (isSignedIn) {
-              $(".sign-in").css("display","none")
-              $(".sign-out").css("display","inline-block");
+              $(".sign-in").css("display", "none");
+              $(".sign-out").css("display", "inline-block");
+              $(".favorate").css("display", "inline-block");
+              $(".profile").css("display", "inline-block");
+              $(".profile").attr("src", showProfileImg());
             } else {
-              $(".sign-in").css("display","inline-block")
-              $(".sign-out").css("display","none")
+              $(".sign-in").css("display", "inline-block");
+              $(".sign-out").css("display", "none");
+              $(".favorate").css("display", "none");
+              $(".profile").css("display", "none");
             }
           });
         });
@@ -113,9 +122,12 @@
           () => {
             console.log("sign in successful");
             showCurrentUserInfo();
-            $(".sign-in").css("display","none");
-            $(".sign-out").css("display","inline-block");
 
+            $(".sign-in").css("display", "none");
+            $(".sign-out").css("display", "inline-block");
+            $(".profile").css("display", "inline-block");
+            $(".profile").attr("src", showProfileImg());
+            $(".favorate").css("display", "inline-block");
           },
           function (err) {
             console.log("this is an error");
@@ -126,7 +138,7 @@
       function isUserSignedIn() {
         // user is signed in if you click the button since the lib has been loaded already
         var isSignedIn = auth2.isSignedIn.get();
-        //document.querySelector("#name").innerText = isSignedIn;
+
         return isSignedIn;
       }
 
@@ -143,17 +155,19 @@
         //document.querySelector("#name").innerText = JSON.stringify(googleUser);
       }
 
-      function showProfileImg(){
+      function showProfileImg() {
         const googleUser = auth2.currentUser.get();
         const profile = googleUser.getBasicProfile();
-        return profile.getImageUrl()
+        return profile.getImageUrl();
       }
 
       function signOut() {
         auth2.signOut().then(function () {
           console.log("user signed out");
-          document.querySelector(".sign-in").style.display = "block";
-          document.querySelector(".sign-out").style.display = "none";
+          $(".sign-in").css("display", "inline-block");
+          $(".sign-out").css("display", "none");
+          $(".profile").css("display", "none");
+          $(".favorate").css("display", "none");
         });
       }
     </script>
@@ -165,5 +179,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
+    <iframe id="ssIFrame_google" sandbox="allow-scripts allow-same-origin" aria-hidden="true" frame-border="0" src="https://accounts.google.com/o/oauth2/iframe#origin=http%3A%2F%2Flocalhost%3A3000&amp;rpcToken=1086946938.816088&amp;clearCache=1" style="position: absolute; width: 1px; height: 1px; inset: -9999px; display: none;"></iframe>
   </body>
 </html>

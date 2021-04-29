@@ -29,7 +29,7 @@ body {
     color: white;
 }
 
-.sign-out{
+.sign-out,.favorate{
     display: none;
     background-color: Transparent;
     background-repeat:no-repeat;
@@ -38,4 +38,11 @@ body {
     overflow: hidden;
     outline:none;
     color: white;
+}
+
+.profile{
+    float:right;
+    margin-right:0.5em;
+    width:35px;
+    border-radius: 50%;
 }

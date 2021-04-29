@@ -1,5 +1,3 @@
-
-
 $(document).ready(() => {
   $(".find-meal").on("click", () => {
     $(".meals").empty();
@@ -7,7 +5,7 @@ $(document).ready(() => {
     getMeal(mealName).catch(() => {
       const error = "We Cannot Find Your Food ! Please Try Again";
       alert(error);
-    });
+    }); //
   });
 
   async function getMeal(name) {
@@ -17,7 +15,7 @@ $(document).ready(() => {
     );
     const data = await response.json();
     const { meals } = data;
-    //console.log(data);
+    console.log(meals);
     for (meal of meals) {
       myFunction(meal);
     }
@@ -99,7 +97,7 @@ $(document).ready(() => {
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-dark rounded-pill" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger rounded-pill px-3" id="addBtn">Add</button>
+                                <button type="button" class="btn btn-danger rounded-pill px-3" id="addBtn" onclick="addRecp()">Add</button>
                               </div>
                             </div>
                           </div>
@@ -127,9 +125,12 @@ $(document).ready(() => {
     }
   }
 
-  $("#addBtn").on("click",()=>{
-    if(isUserSignedIn()){
-      
+  function addRecp() {
+    if (!isUserSignedIn()) {
+      alert("please sign in to add");
+    } else {
+      //send data to server
     }
-  })
+  }
+
 });

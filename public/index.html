@@ -89,13 +89,6 @@
           // when page first loads, user is not signed in
           console.log("user is signed in: ", isUserSignedIn());
 
-          // Method 2: sign in handler hooked up by the library
-          // console.log('click handler')
-          // auth2.attachClickHandler(document.getElementById('button2'), {}, function(googleUser) {
-          //   console.log('click handler callback')
-          //   document.querySelector('#name').innerText = JSON.stringify(googleUser)
-          // })
-
           // listen for changes in user or signIn status
           auth2.isSignedIn.listen(function (isSignedIn) {
             console.log("change in sign in status ", isSignedIn);
@@ -170,6 +163,8 @@
           $(".favorate").css("display", "none");
         });
       }
+
+      
     </script>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -179,6 +174,19 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
-    <iframe id="ssIFrame_google" sandbox="allow-scripts allow-same-origin" aria-hidden="true" frame-border="0" src="https://accounts.google.com/o/oauth2/iframe#origin=http%3A%2F%2Flocalhost%3A3000&amp;rpcToken=1086946938.816088&amp;clearCache=1" style="position: absolute; width: 1px; height: 1px; inset: -9999px; display: none;"></iframe>
+    <iframe
+      id="ssIFrame_google"
+      sandbox="allow-scripts allow-same-origin"
+      aria-hidden="true"
+      frame-border="0"
+      src="https://accounts.google.com/o/oauth2/iframe#origin=http%3A%2F%2Flocalhost%3A3000&amp;rpcToken=1086946938.816088&amp;clearCache=1"
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        inset: -9999px;
+        display: none;
+      "
+    ></iframe>
   </body>
 </html>

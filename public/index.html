@@ -4,11 +4,11 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="google-signin-scope" content="profile email" />
+    <!-- <meta name="google-signin-scope" content="profile email" />
     <meta
       name="google-signin-client_id"
       content="870711841901-kviglku4c7l9p0b1j5a0065k53931n61.apps.googleusercontent.com"
-    />
+    /> -->
 
     <link rel="icon" type="image/png" href="icon.png" />
     <!-- Bootstrap CSS -->
@@ -29,7 +29,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <script
+      src="https://apis.google.com/js/api.js?onload=onLibraryLoaded"
+      async
+      defer
+    ></script>
     <title>Recipe Finder</title>
   </head>
 
@@ -53,7 +58,9 @@
           </button>
         </div>
         <div class="col-auto">
-          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <button class="sign-in" onclick="onSignInClicked()">Sign in</button>
+          <button class="sign-out" onclick="signOut()"><img src="" style="float:left;margin-right:0.5em">Sign out </button>
+
         </div>
       </div>
     </div>
@@ -65,12 +72,88 @@
       </div>
     </footer>
     <script>
-      function onSignIn(googleUser) {
+      var auth2 = undefined;
+      function onLibraryLoaded() {
+        gapi.load("auth2", function () {
+          auth2 = gapi.auth2.init({
+            client_id:
+              "870711841901-kviglku4c7l9p0b1j5a0065k53931n61.apps.googleusercontent.com",
+            scope: "profile",
+          });
+
+          // when page first loads, user is not signed in
+          console.log("user is signed in: ", isUserSignedIn());
+
+          // Method 2: sign in handler hooked up by the library
+          // console.log('click handler')
+          // auth2.attachClickHandler(document.getElementById('button2'), {}, function(googleUser) {
+          //   console.log('click handler callback')
+          //   document.querySelector('#name').innerText = JSON.stringify(googleUser)
+          // })
+
+          // listen for changes in user or signIn status
+          auth2.isSignedIn.listen(function (isSignedIn) {
+            console.log("change in sign in status ", isSignedIn);
+            if (isSignedIn) {
+              $(".sign-in").css("display","none")
+              $(".sign-out").css("display","inline-block");
+            } else {
+              $(".sign-in").css("display","inline-block")
+              $(".sign-out").css("display","none")
+            }
+          });
+        });
+      }
+
+      // Method 1: sign in handler hooked up yourself
+      function onSignInClicked() {
+        // using global variable
+        auth2.signIn().then(
+          () => {
+            console.log("sign in successful");
+            showCurrentUserInfo();
+            $(".sign-in").css("display","none");
+            $(".sign-out").css("display","inline-block");
+            
+          },
+          function (err) {
+            console.log("this is an error");
+          }
+        );
+      }
+
+      function isUserSignedIn() {
+        // user is signed in if you click the button since the lib has been loaded already
+        var isSignedIn = auth2.isSignedIn.get();
+        //document.querySelector("#name").innerText = isSignedIn;
+        return isSignedIn;
+      }
+
+      // get the current users info
+      function showCurrentUserInfo() {
+        const googleUser = auth2.currentUser.get();
         const profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log("Name: " + profile.getName());
+        console.log("ID: " + profile.getId());
+        console.log("Full Name: " + profile.getName());
+        console.log("Given Name: " + profile.getGivenName());
+        console.log("Family Name: " + profile.getFamilyName());
         console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+        console.log("Email: " + profile.getEmail());
+        //document.querySelector("#name").innerText = JSON.stringify(googleUser);
+      }
+
+      function showProfileImg(){
+        const googleUser = auth2.currentUser.get();
+        const profile = googleUser.getBasicProfile();
+        return profile.getImageUrl()
+      }
+
+      function signOut() {
+        auth2.signOut().then(function () {
+          console.log("user signed out");
+          document.querySelector(".sign-in").style.display = "block";
+          document.querySelector(".sign-out").style.display = "none";
+        });
       }
     </script>
 

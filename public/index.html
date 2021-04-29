@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-signin-scope" content="profile email" />
+    <meta
+      name="google-signin-client_id"
+      content="870711841901-kviglku4c7l9p0b1j5a0065k53931n61.apps.googleusercontent.com"
+    />
+
+    <link rel="icon" type="image/png" href="icon.png" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>Recipe Finder</title>
+  </head>
+
+  <body class="text-light">
+    <div class="text-center box font">
+      <h1>Recipe Finder 🥘</h1>
+      <div class="row g-3 justify-content-center">
+        <div class="col-auto">
+          <input
+            type="text"
+            class="form-control rounded-pill"
+            placeholder="Enter Your Meal Name"
+          />
+        </div>
+        <div class="col-auto">
+          <button
+            type="submit"
+            class="btn btn-light mb-3 find-meal rounded-pill px-3"
+          >
+            Explore 🔍
+          </button>
+        </div>
+        <div class="col-auto">
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+      </div>
+    </div>
+    <div class="meals d-flex justify-content-center row mx-2"></div>
+
+    <footer class="footer mt-auto py-3 bg-light w-100 font">
+      <div class="result border-0 text-dark col-auto p-2">
+        <h6 class="text-center">Made by Group 404</h6>
+      </div>
+    </footer>
+    <script>
+      function onSignIn(googleUser) {
+        const profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log("Name: " + profile.getName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+    </script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>

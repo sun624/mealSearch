@@ -11,6 +11,7 @@ body {
     rgb(165, 142, 13) 100%
   );
   background-repeat: no-repeat;
+  font-family: "Syne Mono", monospace;
 }
 
 .font {
@@ -49,4 +50,14 @@ body {
   margin-right: 0.5em;
   width: 35px;
   border-radius: 50%;
+}
+
+.addBtn-container {
+  display: flex;
+  height: 30px;
+  margin-top: 50px;
+}
+
+.btn-danger {
+  align-self: flex-end;
 }

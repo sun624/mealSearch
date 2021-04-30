@@ -4,7 +4,6 @@ body {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background: rgb(0, 36, 13);
   background: linear-gradient(
     212deg,
     rgb(192, 139, 23) 0%,

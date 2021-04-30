@@ -1,32 +1,41 @@
 $(document).ready(() => {
   $(".find-meal").on("click", () => {
+    //empty meals cards section
     $(".meals").empty();
     const mealName = $("input").val();
+    //display meal cards
     getMeal(mealName).catch(() => {
       const error = "We Cannot Find Your Food ! Please Try Again";
       alert(error);
-    }); //
+    });
+    //reset search box
     $("input").val("");
   });
 
   async function getMeal(name) {
     count = 0;
+
+    //Instead of going to our server to query, here we directly query through API to quickly present results
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
     );
     const data = await response.json();
     const { meals } = data;
-    console.log(meals);
+    //console.log(meals);
+    //render meals cards
     for (let i = 0; i < meals.length; i++) {
       displayCard(meals[i], i, false);
     }
+    // add listener on add button
     const btns = $(".addBtn");
     for (btn of btns) {
       $(btn).on("click", addRecp);
     }
   }
 
+  // display each individual meal card
   function displayCard(item, count, isFav) {
+    //extract ingredients into array
     const ingredient = [
       item.strIngredient1,
       item.strIngredient2,
@@ -49,6 +58,8 @@ $(document).ready(() => {
       item.strIngredient19,
       item.strIngredient20,
     ];
+
+    //extract measures into array
     const measure = [
       item.strMeasure1,
       item.strMeasure2,
@@ -72,6 +83,7 @@ $(document).ready(() => {
       item.strMeasure20,
     ];
 
+    //meal card construction using modal
     const card =
       `<div id="${item.idMeal}" class="card text-dark m-2 p-2" style="max-width: 18rem;" data-bs-toggle="modal" data-bs-target="#exampleModal-${count}">
                           <img src="${item.strMealThumb}" class="card-img-top w-100" alt="...">
@@ -117,6 +129,8 @@ $(document).ready(() => {
 
     function ingredientsInfo(ingredient, measure) {
       const result = [];
+
+      // go through each ingredient and measure and add to modal
       for (let i = 0; i < ingredient.length; i++) {
         if (
           ingredient[i] != "" &&
@@ -132,9 +146,11 @@ $(document).ready(() => {
       return result.join("");
     }
 
+    // append individual card into meal section
     $(".meals").append(card);
   }
 
+  //Depend on if the card is in your favorites, return add button or delete button
   function btnSelector(id, isFav) {
     if (!isFav) {
       return `<button type="button" data-bs-dismiss="modal" class="btn btn-danger rounded-pill px-3 addBtn" id=${id}>Add</button>`;
@@ -143,16 +159,23 @@ $(document).ready(() => {
     }
   }
 
+  //<your favourites> button listener
   $(".favorate").on("click", () => {
     $(".meals").empty();
+
+    //construct current url as a query string with parameters
     let url = new URL("https://recipe-finder-group404.herokuapp.com");
     url.search = new URLSearchParams({ email: showCurrentUserInfo().email });
+
+    // go to server and ask for user specific favourite meals
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         for (let i = 0; i < data.length; i++) {
           displayCard(data[i].recipe, i, true);
         }
+
+        // add listeners on to delete button, because these card show up in the favourites, so, it does not have add button
         const btns = $(".delBtn");
         for (btn of btns) {
           $(btn).on("click", delRecp);
@@ -161,6 +184,7 @@ $(document).ready(() => {
   });
 
   function delRecp(e) {
+    //construct data info sent to server
     const data = {
       email: showCurrentUserInfo().email,
       mealId: e.target.id,
@@ -174,18 +198,16 @@ $(document).ready(() => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert("Deleted Successfully");
+        //card with the same id as the button will be removed
         $(`#${e.target.id}`).remove();
       });
   }
 
   function addRecp(e) {
-    // console.log(e);
-    // console.log("user sign in status" + isUserSignedIn());
+    //if user is not signed in, prompt user to sign in first to use add button
     if (!isUserSignedIn()) {
       alert("please sign in to add");
     } else {
-      //alert("user is signed in ");
       //send data to server
       const data = {
         email: showCurrentUserInfo().email,

@@ -10,7 +10,6 @@ $(document).ready(() => {
   });
 
   async function getMeal(name) {
-    
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
     );
@@ -75,13 +74,17 @@ $(document).ready(() => {
     const card =
       `<div id="${item.idMeal}" class="card text-dark m-2 p-2" style="max-width: 18rem;" >
                           <img src="${item.strMealThumb}" class="card-img-top w-100" alt="..." data-bs-toggle="modal" data-bs-target="#exampleModal-${count}">
-                          <div class="card-body" style="display:flex; flex-direction:row;justify-content:space-around">
+                          <div class="card-body" style="display:flex; flex-direction:coloumn;justify-content:center">
+                          
                             <h5 class="card-title">${item.strMeal}</h5>
                             <p class="card-text">(${item.strArea})</p>
+                            <div class="addBtn-container">
                             ` +
       btnSelector(item.idMeal, isFav) +
       `
-                        </div>
+                        
+      </div>
+      </div>
                         </div>
                         <!-- Modal -->
                         <div class="modal fade text-dark" id="exampleModal-${count}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

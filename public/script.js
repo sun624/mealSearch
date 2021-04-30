@@ -75,7 +75,7 @@ $(document).ready(() => {
     const card =
       `<div id="${item.idMeal}" class="card text-dark m-2 p-2" style="max-width: 18rem;" >
                           <img src="${item.strMealThumb}" class="card-img-top w-100" alt="..." data-bs-toggle="modal" data-bs-target="#exampleModal-${count}">
-                          <div class="card-body" style="display:flex; flex-direction:row;justify-content:space-between">
+                          <div class="card-body" style="display:flex; flex-direction:row;justify-content:space-around">
                             <h5 class="card-title">${item.strMeal}</h5>
                             <p class="card-text">(${item.strArea})</p>
                             ` +

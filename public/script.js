@@ -174,7 +174,6 @@ $(document).ready(() => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert("Deleted Successfully");
         $(`#${e.target.id}`).remove();
       });
   }
